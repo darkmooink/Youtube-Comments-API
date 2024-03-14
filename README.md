@@ -36,4 +36,6 @@ These files are crucial for configuring the project in different environments.
 
 ## Getting Started
 
-After completing these steps, you’re ready to start working on the project. Make sure to use the correct `.env` file for each environment (development, testing, or live).
+- Run `npm start` to run in a development enviroment
+- Run `npm test` to run the unit tests
+- Run `npm run live` to run the live enviroment.
