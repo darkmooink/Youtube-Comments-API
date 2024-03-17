@@ -11,7 +11,6 @@ export const populateDummyData = async () => {
     author: "@MrBeast",
     likeCount: 1012838,
     text: "Like I said in the video, subscribe if you haven’t already and you could win $10,000!",
-    type: "top-level",
   });
   await Comment.create({
     id: "UgzH8vliQSJKHQMGZjx4AaABAg.9V8_MXpsbSv9V8_NNseQDx",
@@ -21,7 +20,6 @@ export const populateDummyData = async () => {
     author: "@shrek3578",
     likeCount: 22324,
     text: "shrek",
-    type: "reply",
   });
   await Comment.create({
     id: "UgzH8vliQSJKHQMGZjx4AaABAg.9V8_MXpsbSv9V8_NOFPBTj",
@@ -31,7 +29,6 @@ export const populateDummyData = async () => {
     author: "@streamingksivsalexwassabi4190",
     likeCount: 22324,
     text: "Who else loves Mrbeast?\n\n👇",
-    type: "reply",
   });
   const commentCount = (await Comment.findAll()).length;
   console.log(

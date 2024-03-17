@@ -21,7 +21,6 @@ export class Comment extends Model<
   declare author: string;
   declare likeCount: number;
   declare text: string;
-  declare type: "top-level" | "reply";
   // Methods to work with the replies association
   declare getReplies: HasManyGetAssociationsMixin<Comment>;
   declare addReply: HasManyAddAssociationMixin<Comment, string>;
@@ -44,7 +43,7 @@ Comment.init(
       type: DataTypes.STRING,
       allowNull: true,
       references: {
-        model: "Comment",
+        model: "Comments",
         key: "id",
       },
     },
@@ -68,13 +67,10 @@ Comment.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   },
   {
     modelName: "Comment",
+    tableName: "Comments",
     timestamps: false,
     sequelize: sequelize,
   }
