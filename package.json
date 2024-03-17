@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=dev nodemon src/server.ts",
     "live": "NODE_ENV=live nodemon src/server.ts",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "anal": "nodemon src/services/sentamentAnalysis.ts"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +35,7 @@
   "dependencies": {
     "eslint": "^8.31.0",
     "express": "^4.18.2",
+    "natural": "^6.12.0",
     "sequelize": "^6.28.0"
   }
 }
