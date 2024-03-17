@@ -15,6 +15,16 @@ export const saveComment = async (commentData: CommentData) => {
   return Comment.create<Comment>(commentData);
 };
 
+export const saveCommentWithReplies = async (commentData: CommentData) => {
+  return Comment.create(commentData, {
+    include: [
+      {
+        association: Comment.associations.replies,
+      },
+    ],
+  });
+};
+
 export const updateComment = async (id: string, updates: Partial<Comment>) => {
   return Comment.update(updates, {
     where: {

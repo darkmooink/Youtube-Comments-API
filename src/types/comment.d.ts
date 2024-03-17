@@ -6,4 +6,5 @@ export type CommentData = {
   author: string;
   likeCount: number;
   text: string;
+  replies?: CommentData[];
 };

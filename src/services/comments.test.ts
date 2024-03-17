@@ -3,6 +3,36 @@ import { Comment } from "../models/comment";
 import { CommentData } from "../types/comment";
 import * as commentService from "./comments";
 
+const createTestCommentData = (): CommentData => ({
+  id: "comment1",
+  parentId: null,
+  channelId: "channel1",
+  videoId: "video1",
+  author: "author1",
+  likeCount: 10,
+  text: "This is the main comment",
+  replies: [
+    {
+      id: "reply1",
+      parentId: "comment1",
+      channelId: "channel1",
+      videoId: "video1",
+      author: "author2",
+      likeCount: 5,
+      text: "This is a reply",
+    },
+    {
+      id: "reply2",
+      parentId: "comment1",
+      channelId: "channel1",
+      videoId: "video1",
+      author: "author3",
+      likeCount: 10,
+      text: "This is a reply",
+    },
+  ],
+});
+
 beforeAll(async () => {
   await sequelize.sync({ force: true });
 });
@@ -199,5 +229,33 @@ describe("getReplies", () => {
     await expect(
       commentService.getReplies("non_existing_parent_id")
     ).rejects.toThrow("Parent comment not found");
+  });
+});
+
+describe("saveCommentWithReplies", () => {
+  it("should save a comment with replies", async () => {
+    const commentData = createTestCommentData();
+
+    expect(commentData.replies).toBeDefined();
+
+    if (!commentData.replies) {
+      throw new Error("Replies are undefined in the test data");
+    }
+
+    const savedComment = await commentService.saveCommentWithReplies(
+      commentData
+    );
+
+    expect(savedComment).toBeDefined();
+    expect(savedComment.id).toBeDefined();
+    expect(savedComment.text).toEqual(commentData.text);
+
+    const replies = await savedComment.getReplies();
+
+    expect(replies).toHaveLength(commentData.replies.length);
+    replies.forEach((reply, index) => {
+      expect(reply).toBeDefined();
+      expect(reply.text).toEqual(commentData.replies![index].text);
+    });
   });
 });
