@@ -21,10 +21,9 @@ export class Comment extends Model<
   declare author: string;
   declare likeCount: number;
   declare text: string;
-  // Methods to work with the replies association
-  // declare getReplies: HasManyGetAssociationsMixin<Comment>;
-  // declare addReply: HasManyAddAssociationMixin<Comment, string>;
-  // declare hasReply: HasManyHasAssociationMixin<Comment, string>;
+  declare getReplies: HasManyGetAssociationsMixin<Comment>;
+  declare addReply: HasManyAddAssociationMixin<Comment, string>;
+  declare hasReply: HasManyHasAssociationMixin<Comment, string>;
 
   declare static associations: {
     replies: Association<Comment, Comment>;
@@ -77,5 +76,10 @@ Comment.init(
 
 Comment.hasMany(Comment, {
   as: "replies",
+  foreignKey: "parentId",
+});
+
+Comment.belongsTo(Comment, {
+  as: "parent",
   foreignKey: "parentId",
 });

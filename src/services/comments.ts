@@ -30,3 +30,21 @@ export const deleteComment = async (id: string) => {
     },
   });
 };
+
+export const addReply = async (parentId: string, replyData: CommentData) => {
+  const parentComment = await Comment.findByPk(parentId);
+  if (!parentComment) {
+    throw new Error("Parent comment not found");
+  }
+  const reply = await Comment.create<Comment>({ ...replyData, parentId });
+  return reply;
+};
+
+export const getReplies = async (parentId: string) => {
+  const parentComment = await Comment.findByPk(parentId);
+  if (!parentComment) {
+    throw new Error("Parent comment not found");
+  }
+  const replies = await parentComment.getReplies();
+  return replies;
+};

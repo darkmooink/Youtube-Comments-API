@@ -119,3 +119,85 @@ describe("deleteComment", () => {
     expect(deletedComment).toBeNull();
   });
 });
+
+describe("addReply", () => {
+  test("should add a reply to an existing comment", async () => {
+    const parentComment = await Comment.create({
+      id: "parent_comment_id",
+      channelId: "parent_channel_id",
+      videoId: "parent_video_id",
+      author: "@parentuser",
+      likeCount: 100,
+      text: "Parent comment text",
+    });
+
+    const replyData: CommentData = {
+      id: "reply_comment_id",
+      parentId: parentComment.id,
+      channelId: "reply_channel_id",
+      videoId: "reply_video_id",
+      author: "@replyuser",
+      likeCount: 20,
+      text: "Reply comment text",
+    };
+
+    const replyComment = await commentService.addReply(
+      parentComment.id,
+      replyData
+    );
+    expect(replyComment).not.toBeNull();
+    expect(replyComment.parentId).toBe(parentComment.id);
+  });
+
+  test("should throw an error if the parent comment does not exist", async () => {
+    const replyData: CommentData = {
+      id: "reply_comment_id",
+      parentId: "non_existing_parent_id",
+      channelId: "reply_channel_id",
+      videoId: "reply_video_id",
+      author: "@replyuser",
+      likeCount: 20,
+      text: "Reply comment text",
+    };
+
+    await expect(
+      commentService.addReply("non_existing_parent_id", replyData)
+    ).rejects.toThrow("Parent comment not found");
+  });
+});
+
+describe("getReplies", () => {
+  test("should get replies for an existing comment", async () => {
+    const parentComment = await Comment.create({
+      id: "parent_comment_id",
+      channelId: "parent_channel_id",
+      videoId: "parent_video_id",
+      author: "@parentuser",
+      likeCount: 100,
+      text: "Parent comment text",
+    });
+
+    const replyData: CommentData = {
+      id: "reply_comment_id",
+      parentId: parentComment.id,
+      channelId: "reply_channel_id",
+      videoId: "reply_video_id",
+      author: "@replyuser",
+      likeCount: 20,
+      text: "Reply comment text",
+    };
+
+    await Comment.create(replyData);
+
+    const replies = await commentService.getReplies(parentComment.id);
+    expect(replies).not.toBeNull();
+    expect(replies.length).toBe(1);
+    expect(replies[0].id).toBe(replyData.id);
+  });
+
+  test("should throw an error if the parent comment does not exist", async () => {
+    await expect(
+      commentService.getReplies("non_existing_parent_id")
+    ).rejects.toThrow("Parent comment not found");
+  });
+});
