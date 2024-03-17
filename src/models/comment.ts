@@ -22,11 +22,10 @@ export class Comment extends Model<
   declare likeCount: number;
   declare text: string;
   // Methods to work with the replies association
-  declare getReplies: HasManyGetAssociationsMixin<Comment>;
-  declare addReply: HasManyAddAssociationMixin<Comment, string>;
-  declare hasReply: HasManyHasAssociationMixin<Comment, string>;
+  // declare getReplies: HasManyGetAssociationsMixin<Comment>;
+  // declare addReply: HasManyAddAssociationMixin<Comment, string>;
+  // declare hasReply: HasManyHasAssociationMixin<Comment, string>;
 
-  // Association between comments (one-to-many)
   declare static associations: {
     replies: Association<Comment, Comment>;
   };
