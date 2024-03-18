@@ -19,10 +19,6 @@ export const getServerStatus = (): serverStatus => {
   return { uptime: serverUptime, responseTime: benchmark };
 };
 
-// export const getYouTubeStatus = async () => {
-//   return true;
-// };
-
 // export const getDatabaseStatus = async () => {
 //   return true;
 // };
