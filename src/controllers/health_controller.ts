@@ -1,39 +1,43 @@
-// Nested JSON object to indicate status of each service
-// the API relies on.
-export type statusJSON = {
-    status: string
-    server: {
-        status: string
-        details?: string
-    }
-    database: {
-        status: string
-        details?: string
-    }
-    youTube: {
-        status: string
-        details?: string
-    }
-}
-
 import * as healthService from '../services/health'
-import { getYoutubeVideoComments } from '../services/youtube_comment.service'
+import { statusJSON } from '../types/health'
 
-export const getHealthStatus = () => {
-    // const statusResponse: statusJSON = {
-    //     status: '',
-    //     server: { status: '' },
-    //     database: { status: '' },
-    //     youTube: { status: '' },
-    // }
-    // healthService.getServerStatus()
-}
-
-export const getYouTubeStatus = async () => {
-    // TODO: There needs to be an error return value from this function.
-    const result = await getYoutubeVideoComments()
-    if (result === null) {
-        return false
+export const getHealthStatus = async () => {
+    const statusResponse: statusJSON = {
+        status: 'Ok',
+        server: { status: '' },
+        database: { status: '' },
+        youTube: { status: '' },
     }
-    return true
+
+    const serverStatus = healthService.getServerStatus()
+    if (serverStatus.responseTime === BigInt(0) || serverStatus.uptime === 0) {
+        statusResponse.status = 'Not Ok'
+        statusResponse.server.status = 'Not Ok'
+        statusResponse.server.details = `Error - no uptime or response time`
+    } else {
+        statusResponse.server.status = 'Ok'
+        statusResponse.server.details = `${serverStatus}`
+    }
+
+    const dbStatus = await healthService.getDatabaseStatus()
+    if (dbStatus === false) {
+        statusResponse.status = 'Not Ok'
+        statusResponse.database.status = 'Not Ok'
+        statusResponse.database.details = 'Error - no response'
+    } else {
+        statusResponse.database.status = 'Ok'
+        statusResponse.database.details = 'Responding'
+    }
+
+    const youTubeTest = await healthService.getYouTubeStatus()
+    if (youTubeTest == false) {
+        statusResponse.status = 'Not Ok'
+        statusResponse.youTube.status = 'Not Ok'
+        statusResponse.youTube.details = 'Error - no response'
+    } else {
+        statusResponse.youTube.status = 'Ok'
+        statusResponse.youTube.details = 'Responding'
+    }
+
+    return statusResponse
 }
