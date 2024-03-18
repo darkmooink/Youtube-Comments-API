@@ -1,7 +1,5 @@
 import * as healthController from './health_controller'
 import * as healthService from '../services/health'
-import * as youTubeCommentService from '../services/youtube_comment.service'
-import { statusJSON } from '../types/health'
 import { serverStatus } from '../types/health'
 
 jest.mock('../services/health')

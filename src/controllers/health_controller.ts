@@ -4,9 +4,9 @@ import { statusJSON } from '../types/health'
 export const getHealthStatus = async () => {
     const statusResponse: statusJSON = {
         status: 'Ok',
-        server: { status: '' },
-        database: { status: '' },
-        youTube: { status: '' },
+        server: { status: 'Ok' },
+        database: { status: 'Ok' },
+        youTube: { status: 'Ok' },
     }
 
     const serverStatus = healthService.getServerStatus()
@@ -15,7 +15,6 @@ export const getHealthStatus = async () => {
         statusResponse.server.status = 'Not Ok'
         statusResponse.server.details = `Error - no uptime or response time`
     } else {
-        statusResponse.server.status = 'Ok'
         statusResponse.server.details = `${serverStatus}`
     }
 
@@ -25,7 +24,6 @@ export const getHealthStatus = async () => {
         statusResponse.database.status = 'Not Ok'
         statusResponse.database.details = 'Error - no response'
     } else {
-        statusResponse.database.status = 'Ok'
         statusResponse.database.details = 'Responding'
     }
 
@@ -35,7 +33,6 @@ export const getHealthStatus = async () => {
         statusResponse.youTube.status = 'Not Ok'
         statusResponse.youTube.details = 'Error - no response'
     } else {
-        statusResponse.youTube.status = 'Ok'
         statusResponse.youTube.details = 'Responding'
     }
 
