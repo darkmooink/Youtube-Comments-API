@@ -1,6 +1,7 @@
 import * as healthService from '../services/health'
 import * as commentService from '../services/comments'
 import { Comment } from '../models/comment'
+import * as youTubeCommentService from '../services/youtube_comment.service'
 
 jest.mock('../services/comments')
 
@@ -38,7 +39,6 @@ describe('getDatabaseStatus', () => {
         )
         // Act
         const res = await healthService.getDatabaseStatus()
-        console.log('res :>> ', res)
         // Assert
         expect(res).toBe(true)
     })
@@ -53,3 +53,31 @@ describe('getDatabaseStatus', () => {
         expect(res).toBe(false)
     })
 })
+
+describe('getYouTubeStatus', () => {
+    test('Returns true if YouTube API responds to call', async () => {
+        // Arrange
+        jest.spyOn(
+            youTubeCommentService,
+            'getYoutubeVideoComments',
+        ).mockResolvedValue({})
+
+        // Act
+        const res = await healthService.getYouTubeStatus()
+        // Assert
+        expect(res).toBe(true)
+    })
+    test('Returns false if YouTube API fails to return a basic response', async () => {
+        // Arrange
+        jest.spyOn(
+            youTubeCommentService,
+            'getYoutubeVideoComments',
+        ).mockResolvedValue(null)
+
+        // Act
+        const res = await healthService.getYouTubeStatus()
+        // Assert
+        expect(res).toBe(false)
+    })
+})
+
