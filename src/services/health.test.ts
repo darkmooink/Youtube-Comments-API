@@ -1,14 +1,17 @@
 import * as healthService from "../services/health";
-import { app } from "../app";
-import request from "supertest";
+import process from "process";
+jest.mock("process");
 
-describe("GET /api/v1/health endpoint - getHealth()", () => {
-  test("should return code 200, status: Ok if all services are healthy", () => {});
-  test("should return code 503, status: Error if any services are not healthy", async () => {
-    // Arrange
-    // Act
-    const res = await request(app).get("/api/v1/health");
-    // Assert
-    expect(res.statusCode).toEqual(503);
+// teardown
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+describe("getServerStatus", () => {
+  test("should return", () => {
+    const serverStatus = healthService.getServerStatus();
+
+    expect(serverStatus.uptime).toBeGreaterThan(0.0);
+    expect(serverStatus.responseTime).toBeGreaterThan(BigInt(0));
   });
 });

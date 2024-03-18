@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import * as healthService from "../services/health";
 
 export const router = express.Router();
-// router.get("/health", healthService.getHealth);
+// TODO: Change this to call healthController method. 
 router.get("/health", (req, res) => {
-  res.status(200).send("Ok");
+  res.status(200).send("status: Ok");
 });

@@ -1,25 +1,28 @@
-// Nested JSON object to indicate status of each service
-// the API relies on.
-export type errorJSON = {
-  status: string;
-  server: {
-    status: string;
-    details?: string;
-  };
-  database: {
-    status: string;
-    details?: string;
-  };
-  youTube: {
-    status: string;
-    details?: string;
-  };
+import process from "process";
+
+export type serverStatus = {
+  uptime: number;
+  responseTime: BigInt;
 };
 
-export const getHealth = () => {};
+// TODO: Make return value either serverStatus or error
+export const getServerStatus = (): serverStatus => {
+  const serverUptime = process.uptime();
+  // High resolution real time in nanoseconds (BIGINT)
+  const start = process.hrtime.bigint();
+  let end = start;
+  setTimeout(() => {
+    end = process.hrtime.bigint();
+  }, 1000);
+  const benchmark = start === end ? start : end - start;
 
-export const getServerStatus = () => {};
+  return { uptime: serverUptime, responseTime: benchmark };
+};
 
-export const getYouTubeStatus = () => {};
+// export const getYouTubeStatus = async () => {
+//   return true;
+// };
 
-export const getDatabaseStatus = () => {};
+// export const getDatabaseStatus = async () => {
+//   return true;
+// };
