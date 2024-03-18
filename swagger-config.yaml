@@ -1,0 +1,14 @@
+# openapi: 3.0.0
+# info:
+#   title: YouTube Comment Analysis service
+#   description: Need to analyse comments on a YouTube video to determine the tone, content and spam 
+#   version: 0.1
+paths:
+  youtubecomments/api/v1/health:
+    get:
+      summary: Reports on the health of the API (Server, YouTube API and Database)
+      responses:
+        "200":
+          description: Hurrah, all is well! 
+        "503":
+          description: One or more services are not functioning, check body for details
