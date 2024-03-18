@@ -1,12 +1,10 @@
 import express from "express";
 import * as commentController from "../controllers/youtube_comment.controller";
-import { Request, Response } from 'express';
-import * as healthService from "../services/health";
+import * as healthController from '../controllers/health_controller'
 
-export const router = express.Router();
-// TODO: Change this to call healthController method. 
-router.get("/health", (req, res) => {
-  res.status(200).send("status: Ok");
-});
+export const baseUrl = '/youtubecomments/api/v1'
 
-router.get("/comments", commentController.getAllYoutubeComments);
+export const router = express.Router()
+
+router.get('/health', healthController.getHealthStatus)
+router.get('/comments', commentController.getAllYoutubeComments)

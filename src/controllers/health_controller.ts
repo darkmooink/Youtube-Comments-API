@@ -1,7 +1,8 @@
 import * as healthService from '../services/health'
 import { statusJSON } from '../types/health'
+import { Request, Response } from 'express'
 
-export const getHealthStatus = async () => {
+export const getHealthStatus = async (req: Request, res: Response) => {
     const statusResponse: statusJSON = {
         status: 'Ok',
         server: { status: 'Ok' },
@@ -15,7 +16,9 @@ export const getHealthStatus = async () => {
         statusResponse.server.status = 'Not Ok'
         statusResponse.server.details = `Error - no uptime or response time`
     } else {
-        statusResponse.server.details = `${serverStatus}`
+        statusResponse.server.details = `uptime: ${
+            serverStatus.uptime
+        }, responseTime: ${serverStatus.responseTime.toString()}`
     }
 
     const dbStatus = await healthService.getDatabaseStatus()
@@ -36,5 +39,7 @@ export const getHealthStatus = async () => {
         statusResponse.youTube.details = 'Responding'
     }
 
-    return statusResponse
+    res.status(statusResponse.status === 'Ok' ? 200 : 503).json(statusResponse)
+
+    return
 }
