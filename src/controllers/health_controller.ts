@@ -37,5 +37,3 @@ export const getYouTubeStatus = async () => {
     }
     return true
 }
-
-const getDatabaseStatus = async () => {}
