@@ -1,4 +1,4 @@
-import process from "process";
+import process from 'process'
 import { getComments } from '../services/comments'
 import { Comment } from '../models/comment'
 import { getYoutubeVideoComments } from '../services/youtube_comment.service'
@@ -33,7 +33,7 @@ export const getDatabaseStatus = async () => {
 
 export const getYouTubeStatus = async () => {
     // TODO: There needs to be an error return value from this function.
-    const result = await getYoutubeVideoComments()
+    const result = await getYoutubeVideoComments('dQw4w9WgXcQ', 1, 100)
     if (result === null) {
         return false
     }
