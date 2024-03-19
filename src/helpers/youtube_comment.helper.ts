@@ -7,7 +7,7 @@ const url = require('node:url')
 export const buildRequestUrl = (
     videoId: string = 'QZ4BXGgmATU',
     pageNo: number = 1,
-    pageSize: number = 1,
+    pageSize: number = 10,
 ) => {
     const requestUrl: string = url.format({
         protocol: 'https',
@@ -15,7 +15,7 @@ export const buildRequestUrl = (
         pathname: CONFIG.youtubeApiPathName,
         query: {
             key: CONFIG.youtubeApiKey,
-            part: 'snippet',
+            part: 'snippet,replies',
             videoId: videoId,
             maxResults: pageSize,
         },

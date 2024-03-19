@@ -5,10 +5,20 @@ import { CommentData } from '../types/comment'
 import { parseYouTubeComments } from '../helpers/youtube_comment.helper'
 
 export const getAllYoutubeComments = async (req: Request, res: Response) => {
+    const videoId = req.params.id
+    if (typeof videoId !== 'string')
+        res.status(400).json({ message: 'Invalid YoutubeId Id' })
+
+    const maxResults = parseInt(req.params.maxResults)
+    if (Number.isNaN(maxResults) || !maxResults)
+        res.status(400).json({
+            message: 'Invalid Max Results value - it must be a number',
+        })
+
     const commentJson = await youtubeCommentService.getYoutubeVideoComments(
-        'QZ4BXGgmATU',
+        videoId,
         1,
-        100,
+        maxResults,
     )
 
     try {
@@ -16,9 +26,8 @@ export const getAllYoutubeComments = async (req: Request, res: Response) => {
         comments.forEach((comment) =>
             commentService.saveCommentWithReplies(comment),
         )
+        res.json(comments).status(200)
     } catch (e) {
         console.error(e)
     }
-
-    res.send(commentJson)
 }
