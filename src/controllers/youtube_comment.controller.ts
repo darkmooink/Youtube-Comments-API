@@ -9,6 +9,5 @@ export const getAllYoutubeComments = async (req: Request, res: Response) => {
         1,
         maxResults,
     )
-    // res.json(commentList).status(200)
-    res.send(commentList)
+    res.json(commentList).status(200)
 }
