@@ -25,5 +25,20 @@ describe('youTube Comment controller', () => {
         )
         // Assert
         expect(res.statusCode).toEqual(400)
+        expect(res.body).toEqual({
+            message: 'Invalid Max Results value - it must be a number',
+        })
+    })
+    test('should return a 400 error if video ID is not valid', async () => {
+        // Arrange
+        const videoId = '123456'
+        const maxResults = '30'
+        // Act
+        const res = await request(app).get(
+            `${baseUrl}/comments/${videoId}/${maxResults}`,
+        )
+        // Assert
+        expect(res.statusCode).toEqual(400)
+        expect(res.body).toEqual({ message: 'Invalid YouTube video Id' })
     })
 })

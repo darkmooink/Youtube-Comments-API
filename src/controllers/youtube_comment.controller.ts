@@ -6,14 +6,23 @@ import { parseYouTubeComments } from '../helpers/youtube_comment.helper'
 
 export const getAllYoutubeComments = async (req: Request, res: Response) => {
     const videoId = req.params.id
-    if (typeof videoId !== 'string')
-        res.status(400).json({ message: 'Invalid YoutubeId Id' })
+  
+    const testResponse = await youtubeCommentService.testYoutubeVideoId(videoId)
+    if (testResponse.pageInfo.totalResults <= 0) {
+        console.log('YouTube video not found')
+        res.status(400).json({
+            message: 'Invalid YouTube video Id',
+        })
+        return
+    }
 
     const maxResults = parseInt(req.params.maxResults)
-    if (Number.isNaN(maxResults) || !maxResults)
+    if (Number.isNaN(maxResults) || !maxResults) {
         res.status(400).json({
             message: 'Invalid Max Results value - it must be a number',
         })
+        return
+    }
 
     const commentJson = await youtubeCommentService.getYoutubeVideoComments(
         videoId,
@@ -24,6 +33,7 @@ export const getAllYoutubeComments = async (req: Request, res: Response) => {
         res.status(400).json({
             message: `No comments received from YouTube API for video ID: ${videoId}`,
         })
+        return
     }
 
     try {
