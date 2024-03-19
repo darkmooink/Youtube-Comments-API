@@ -22,5 +22,6 @@ export const getYoutubeVideoComments = async (
         }
     } catch (error) {
         console.log('Unable to fetch -', error)
+        return null
     }
 }
