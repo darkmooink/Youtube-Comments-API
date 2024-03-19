@@ -42,7 +42,10 @@ export const getAllYoutubeComments = async (req: Request, res: Response) => {
             commentService.saveCommentWithReplies(comment),
         )
         res.json(comments).status(200)
-    } catch (e) {
-        console.error(e)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            message: `Error saving comments to database - ${error}`,
+        })
     }
 }
