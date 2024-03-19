@@ -12,17 +12,26 @@ export const getComment = async (id: string) => {
 }
 
 export const saveComment = async (commentData: CommentData) => {
-    return Comment.create<Comment>(commentData)
+    const { id, ...commentProps } = commentData
+
+    let [comment, created] = await Comment.findOrCreate({
+        where: { id },
+        defaults: { id, ...commentProps },
+    })
+
+    return comment
 }
 
 export const saveCommentWithReplies = async (commentData: CommentData) => {
-    return Comment.create(commentData, {
-        include: [
-            {
-                association: Comment.associations.replies,
-            },
-        ],
-    })
+    const { id, replies, ...commentProps } = commentData
+
+    let comment = await saveComment({ id, ...commentProps })
+
+    if (replies && replies.length > 0) {
+        await handleReplies(comment, replies)
+    }
+
+    return comment
 }
 
 export const updateComment = async (id: string, updates: Partial<Comment>) => {
@@ -57,4 +66,11 @@ export const getReplies = async (parentId: string) => {
     }
     const replies = await parentComment.getReplies()
     return replies
+}
+const handleReplies = async (comment: CommentData, replies: CommentData[]) => {
+    for (const replyData of replies) {
+        const { id, ...commentProps } = replyData
+        const comment = await saveComment({ id, ...commentProps })
+    }
+    return comment
 }
