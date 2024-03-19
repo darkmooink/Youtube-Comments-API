@@ -1,21 +1,28 @@
-import { Request, Response, NextFunction } from 'express';
-import { authenticate as authenticateService } from '../services/authentication';
+import { Request, Response, NextFunction } from 'express'
+import { authenticate as authenticateService } from '../services/authentication'
 
-export async function authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function authenticate(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+): Promise<void> {
     try {
-        const apiKey = req.params.API_EKY;
+        const apiKey = req.query.API_KEY
 
-        // Await the asynchronous authenticate service
-        const isAuthenticated = await authenticateService(apiKey);
-        console.log(isAuthenticated+'----------------------------------------')
-        if (isAuthenticated) {
-            next();
-        } else {
-            res.status(401).json({ error: 'Unauthorized' });
+        if (typeof apiKey === 'string') {
+            const isAuthenticated = await authenticateService(apiKey)
+            console.log(
+                isAuthenticated + '----------------------------------------',
+            )
+            if (isAuthenticated) {
+                next()
+            } else {
+                res.status(401).json({ error: 'Unauthorized' })
+            }
         }
     } catch (err) {
         // Handle any potential errors in the authentication process
-        console.error(err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error(err)
+        res.status(500).json({ error: 'Internal Server Error' })
     }
 }

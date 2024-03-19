@@ -13,8 +13,7 @@ router.get('/health', healthController.getHealthStatus)
 // ALL ROUTES BELOW THIS POINT NEED AN API KEY TO AUTHENTICATE //
 /////////////////////////////////////////////////////////////////
 
-
 router.use((req, res, next) => {
     authenticate(req, res, next)
-  })
+})
 router.get('/comments/:id/:maxResults', commentController.getAllYoutubeComments)
