@@ -12,6 +12,6 @@ app.listen(PORT, () => {
 
     // Seed the database with some data
     if (environment === 'dev') {
-        populateDummyData()
+        // populateDummyData()
     }
 })
