@@ -15,10 +15,7 @@ export const getYoutubeVideoComments = async (
     try {
         if (requestUrl.length) {
             const response = await fetch(requestUrl)
-            const data = await response.json()
-            const dataArr = commentHelper.formatCommentList(data)
-            // console.log(dataArr)
-            return dataArr
+            return await response.json()
         }
     } catch (error) {
         console.log('Unable to fetch -', error)
