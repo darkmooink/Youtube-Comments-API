@@ -20,7 +20,7 @@ const swaggerConfiguration = {
     apis: ['src/routes/routes.js', 'swagger-config.yaml'],
 }
 const specs = swaggerJSDoc(swaggerConfiguration)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+app.use(`${baseUrl}/api-docs`, swaggerUi.serve, swaggerUi.setup(specs))
 
 app.use(express.json())
 
