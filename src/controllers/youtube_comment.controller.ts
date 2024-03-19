@@ -20,6 +20,11 @@ export const getAllYoutubeComments = async (req: Request, res: Response) => {
         1,
         maxResults,
     )
+    if (!commentJson) {
+        res.status(400).json({
+            message: `No comments received from YouTube API for video ID: ${videoId}`,
+        })
+    }
 
     try {
         const comments: CommentData[] = parseYouTubeComments(commentJson)
