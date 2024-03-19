@@ -2,6 +2,7 @@ import express from 'express'
 import { router } from './routes/routes'
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
+import { baseUrl } from './routes/routes'
 
 export const app = express()
 
@@ -23,8 +24,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
 app.use(express.json())
 
-app.get('/', (req, res) => res.send('Welcome to YouTube Comment Analysis API!'))
+app.get(`${baseUrl}/`, (req, res) =>
+    res.send('Welcome to YouTube Comment Analysis API!'),
+)
 
-app.use('/', router)
-
-
+app.use(baseUrl, router)
