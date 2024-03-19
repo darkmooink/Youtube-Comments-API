@@ -1,5 +1,7 @@
-import { CommentData, CommentItem, ISnippet } from './../types/comment.d'
 import { CONFIG } from './../config'
+import { CommentListResponseSchema } from '../helpers/youtube_api_schema.helper'
+import { CommentData } from '../types/comment'
+
 const url = require('node:url')
 
 export const buildRequestUrl = (
@@ -21,29 +23,50 @@ export const buildRequestUrl = (
     return requestUrl
 }
 
-export const formatCommentList = (commentList: any) => {
-    if (commentList && commentList.items && commentList.items.length) {
-        const comments: CommentItem[] = commentList.items
-        let commentArr: ISnippet[] = []
+export const parseYouTubeComments = (commentJson: object) => {
+    const validatedCommentJson = CommentListResponseSchema.parse(commentJson)
 
-        for (let comment of comments) {
-            let newCommentVal: ISnippet
-            let replyArr: ISnippet[]
-            if (comment.snippet) {
-                if (comment.snippet.totalReplyCount === 0) {
-                    newCommentVal = comment.snippet.topLevelComment
-                        .snippet as ISnippet
-                    commentArr = [...commentArr, newCommentVal]
-                }
+    const items = validatedCommentJson.items || []
+    const comments = items.map((item) => {
+        const topLevelComment = item.snippet.topLevelComment
 
-                if (comment.snippet.totalReplyCount) {
-                    replyArr = comment.replies.comments.map(
-                        (val) => val as ISnippet,
-                    )
-                    commentArr = [...commentArr, ...replyArr]
-                }
-            }
+        const commentData: CommentData = {
+            id: topLevelComment.id,
+            parentId: null,
+            channelId: topLevelComment.snippet.channelId,
+            videoId: topLevelComment.snippet.videoId,
+            author: topLevelComment.snippet.authorDisplayName,
+            likeCount: topLevelComment.snippet.likeCount,
+            text: topLevelComment.snippet.textDisplay,
+            sentiment: null,
+            timeSubmitted: new Date(topLevelComment.snippet.publishedAt),
+            timeArchived: new Date(topLevelComment.snippet.updatedAt),
+            authorChannelId: topLevelComment.snippet.authorChannelId.value,
+            authorChannelUrl: topLevelComment.snippet.authorChannelUrl,
         }
-        return commentArr
-    }
+
+        if (item.replies) {
+            commentData.replies = []
+            item.replies.comments.forEach((reply) => {
+                commentData.replies?.push({
+                    id: reply.id,
+                    parentId: commentData.id,
+                    channelId: reply.snippet.channelId,
+                    videoId: reply.snippet.videoId,
+                    author: reply.snippet.authorDisplayName,
+                    likeCount: reply.snippet.likeCount,
+                    text: reply.snippet.textDisplay,
+                    sentiment: null,
+                    timeSubmitted: new Date(reply.snippet.publishedAt),
+                    timeArchived: new Date(reply.snippet.updatedAt),
+                    authorChannelId: reply.snippet.authorChannelId.value,
+                    authorChannelUrl: reply.snippet.authorChannelUrl,
+                })
+            })
+        }
+
+        return commentData
+    })
+
+    return comments
 }
