@@ -1,14 +1,54 @@
-# openapi: 3.0.0
-# info:
-#   title: YouTube Comment Analysis service
-#   description: Need to analyse comments on a YouTube video to determine the tone, content and spam 
-#   version: 0.1
 paths:
-  youtubecomments/api/v1/health:
+  /youtubecomments/api/v1/health:
     get:
+      tags:
+        - comments
       summary: Reports on the health of the API (Server, YouTube API and Database)
       responses:
         "200":
           description: Hurrah, all is well! 
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Status'
         "503":
           description: One or more services are not functioning, check body for details
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Status'
+components:
+  schemas:
+    Status:
+      type: object
+      properties:
+        status: 
+          type: string
+          example: 'Ok'
+        server:
+          type: object
+          properties:
+            status:
+              type: string
+              example: 'Not Ok'
+            details: 
+              type: string
+              example: "uptime: 57.6273294, responseTime: 323389352704400"
+        database:
+          type: object
+          properties: 
+            status: 
+              type: string
+              example: "Ok"
+            details: 
+              type: string
+              example: "Responding"
+        youTube:
+          type: object
+          properties: 
+            status: 
+              type: string
+              example: "Not Ok"
+            details: 
+              type: string
+              example: "Error - no response"
