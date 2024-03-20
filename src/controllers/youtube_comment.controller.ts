@@ -45,5 +45,6 @@ export const getAndSaveVideoCommentsWithSentiment = async (
         res.status(400).json({
             message: `Error saving comments to database - ${error}`,
         })
+        return
     }
 }
