@@ -3,6 +3,7 @@ import * as youtubeCommentService from '../services/youtube_comment.service'
 import * as commentService from '../services/comments'
 import { CommentData } from '../types/comment'
 import { parseYouTubeComments } from '../helpers/youtube_comment.helper'
+import { getSentiment } from '../services/sentamentAnalysis'
 
 export const getAllYoutubeComments = async (req: Request, res: Response) => {
     const videoId = req.params.id
@@ -23,8 +24,10 @@ export const getAllYoutubeComments = async (req: Request, res: Response) => {
 
     try {
         const comments: CommentData[] = parseYouTubeComments(commentJson)
-        comments.forEach((comment) =>
-            commentService.saveCommentWithReplies(comment),
+        comments.forEach((comment) =>{
+            comment.sentiment = getSentiment(comment.text)
+            commentService.saveCommentWithReplies(comment)
+        },
         )
         res.json(comments).status(200)
     } catch (e) {
