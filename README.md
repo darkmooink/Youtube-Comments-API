@@ -18,6 +18,7 @@ Swagger Endpoint is at - http://localhost:3000/youtubecomments/api/v1/api-docs/
 1. Typescript backend
 2. PostgreSql database
 3. Sequelise for Object Relational Mapper
+4. Test Driven Development Approach implemented using Jest
 
 # Project Setup Instructions
 
@@ -29,6 +30,23 @@ Swagger Endpoint is at - http://localhost:3000/youtubecomments/api/v1/api-docs/
 6. use POSTMAN / browser to view categorisation of comments -
    GET - http://localhost:<APPLICATION-PORT>/youtubecomments/api/v1/comments/<VIDEO-ID>/<NUMBER-OF-COMMENTS-TO-BE-RETURNED>?API_KEY=<YOUR-YOUTUBE-API-KEY>
     - sample API key is 9723667a-1fbe-4998-ae25-a832e1f9aae2
+
+# Challenges
+
+1. Defining the scope of the project
+2.
+
+# Achievements
+
+1. Successfully pulled Youtube comments associated to given valid video id
+2. Successfully analysed and categorised each comment pulled
+3. Successfully provided a full coverage testing for the application apis
+4. Successfully managed our project using Trello
+
+# TO DO
+
+1. Improve our analysis such that comments can be categorised in to SPAM, ABUSIVE, CHILD-INAPPROPRIATE
+2. Allow user to specify categories of analysis the would like to see
 
 ## Step 1: Install Dependencies
 
