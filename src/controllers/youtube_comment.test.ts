@@ -43,7 +43,7 @@ describe('youTube Comment controller', () => {
         jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
         const res = await request(app).get(
-            `${baseUrl}/comments/${videoId}/${maxResults}`,
+            `${baseUrl}/comments/${videoId}/${maxResults}?API_KEY=118e59a5-0ebd-4d7c-9006-dd81688659c0`,
         )
         // Assert
         expect(res.statusCode).toEqual(400)
@@ -58,7 +58,7 @@ describe('youTube Comment controller', () => {
         jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
         const res = await request(app).get(
-            `${baseUrl}/comments/${videoId}/${maxResults}`,
+            `${baseUrl}/comments/${videoId}/${maxResults}?API_KEY=118e59a5-0ebd-4d7c-9006-dd81688659c0`,
         )
         // Assert
         expect(res.statusCode).toEqual(400)
@@ -77,7 +77,7 @@ describe('youTube Comment controller', () => {
         jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
         const res = await request(app).get(
-            `${baseUrl}/comments/${videoId}/${maxResults}`,
+            `${baseUrl}/comments/${videoId}/${maxResults}?API_KEY=118e59a5-0ebd-4d7c-9006-dd81688659c0`,
         )
         // Assert
         expect(res.statusCode).toEqual(400)
