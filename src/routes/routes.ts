@@ -18,5 +18,5 @@ router.use((req, res, next) => {
 })
 router.get(
     '/comments/:id/:maxResults',
-    commentController.saveCommentsWithSetiment,
+    commentController.getAndSaveVideoCommentsWithSentiment,
 )
