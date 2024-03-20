@@ -57,10 +57,17 @@ describe('getDatabaseStatus', () => {
 describe('getYouTubeStatus', () => {
     test('Returns true if YouTube API responds to call', async () => {
         // Arrange
+        const mockReturnValue = {
+            pageInfo: {
+                totalResults: 1,
+                resultsPerPage: 1,
+            },
+        }
+
         jest.spyOn(
             youTubeCommentService,
-            'getYoutubeVideoComments',
-        ).mockResolvedValue({})
+            'testYoutubeVideoId',
+        ).mockResolvedValue(mockReturnValue)
 
         // Act
         const res = await healthService.getYouTubeStatus()
@@ -69,10 +76,17 @@ describe('getYouTubeStatus', () => {
     })
     test('Returns false if YouTube API fails to return a basic response', async () => {
         // Arrange
+        const mockReturnValue = {
+            pageInfo: {
+                totalResults: 0,
+                resultsPerPage: 9,
+            },
+        }
+
         jest.spyOn(
             youTubeCommentService,
-            'getYoutubeVideoComments',
-        ).mockResolvedValue(null)
+            'testYoutubeVideoId',
+        ).mockResolvedValue(mockReturnValue)
 
         // Act
         const res = await healthService.getYouTubeStatus()

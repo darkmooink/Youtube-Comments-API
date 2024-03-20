@@ -32,7 +32,7 @@ export const getDatabaseStatus = async () => {
 
 export const getYouTubeStatus = async () => {
     const testResponse = await testYoutubeVideoId('dQw4w9WgXcQ')
-    if (testResponse.pageInfo.totalResults <= 0) {
+    if (testResponse?.pageInfo.totalResults <= 0) {
         return false
     }
     return true
