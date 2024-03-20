@@ -7,7 +7,7 @@ export const getAndSaveVideoCommentsWithSentiment = async (
     res: Response,
 ) => {
     const videoId = req.params.id
-  
+
     const testResponse = await youtubeCommentService.testYoutubeVideoId(videoId)
     if (testResponse.pageInfo.totalResults <= 0) {
         console.log('YouTube video not found')

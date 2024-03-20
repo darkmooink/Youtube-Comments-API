@@ -12,4 +12,5 @@ export const CONFIG = {
     dbPassword: process.env.DB_PASSWORD ?? '',
     dbHost: process.env.DB_HOST ?? 'localhost',
     dbDialect: process.env.DB_DIALECT ?? 'sqlite',
+    dbPort: process.env.DBPort ?? '5432',
 } as const
