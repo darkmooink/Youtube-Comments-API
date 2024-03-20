@@ -13,8 +13,9 @@ const swaggerConfiguration = {
             title: 'YouTube Comment Analysis service',
             version: '0.1',
             description:
-                'Need to analyse comments on a YouTube video to determine the tone, content and identify spam?' +
-                '',
+                'Welcome to the YouTube Comment Analysis Service' +
+                'We can analyse comments on your YouTube video and help you determine the sentiment/tone and content' +
+                "This can help you to gauge your audience's reactions and improve your relationship with your community ",
         },
     },
     apis: ['src/routes/routes.js', 'swagger-config.yaml'],
@@ -23,9 +24,5 @@ const specs = swaggerJSDoc(swaggerConfiguration)
 app.use(`${baseUrl}/api-docs`, swaggerUi.serve, swaggerUi.setup(specs))
 
 app.use(express.json())
-
-app.get(`${baseUrl}/`, (req, res) =>
-    res.send('Welcome to YouTube Comment Analysis API!'),
-)
 
 app.use(baseUrl, router)

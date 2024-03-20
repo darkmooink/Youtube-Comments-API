@@ -71,7 +71,7 @@ Comment.init(
             allowNull: false,
         },
         sentiment: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.FLOAT,
             allowNull: true,
         },
         timeSubmitted: {

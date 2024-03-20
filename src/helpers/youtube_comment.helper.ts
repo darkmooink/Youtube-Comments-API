@@ -1,6 +1,7 @@
 import { CONFIG } from './../config'
 import { CommentListResponseSchema } from '../helpers/youtube_api_schema.helper'
 import { CommentData } from '../types/comment'
+import { getSentiment } from '../services/sentamentAnalysis'
 
 const url = require('node:url')
 
@@ -23,7 +24,23 @@ export const buildRequestUrl = (
     return requestUrl
 }
 
-export const parseYouTubeComments = (commentJson: object) => {
+export const buildTestUrl = (videoId: string) => {
+    const requestUrl: string = url.format({
+        protocol: 'https',
+        hostname: CONFIG.youtubeApiHostName,
+        pathname: '/youtube/v3/videos',
+        query: {
+            key: CONFIG.youtubeApiKey,
+            part: 'id',
+            id: videoId,
+        },
+    })
+    return requestUrl
+}
+
+export const parseYouTubeCommentsWithSentiment = (
+    commentJson: object,
+): CommentData[] => {
     const validatedCommentJson = CommentListResponseSchema.parse(commentJson)
 
     const items = validatedCommentJson.items || []
@@ -38,7 +55,7 @@ export const parseYouTubeComments = (commentJson: object) => {
             author: topLevelComment.snippet.authorDisplayName,
             likeCount: topLevelComment.snippet.likeCount,
             text: topLevelComment.snippet.textDisplay,
-            sentiment: null,
+            sentiment: getSentiment(topLevelComment.snippet.textDisplay),
             timeSubmitted: new Date(topLevelComment.snippet.publishedAt),
             timeArchived: new Date(topLevelComment.snippet.updatedAt),
             authorChannelId: topLevelComment.snippet.authorChannelId.value,
@@ -56,7 +73,7 @@ export const parseYouTubeComments = (commentJson: object) => {
                     author: reply.snippet.authorDisplayName,
                     likeCount: reply.snippet.likeCount,
                     text: reply.snippet.textDisplay,
-                    sentiment: null,
+                    sentiment: getSentiment(reply.snippet.textDisplay),
                     timeSubmitted: new Date(reply.snippet.publishedAt),
                     timeArchived: new Date(reply.snippet.updatedAt),
                     authorChannelId: reply.snippet.authorChannelId.value,
