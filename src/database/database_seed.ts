@@ -1,4 +1,6 @@
 import { Comment } from '../models/comment'
+import { AuthToken } from '../models/authToken'
+const { v4: uuidv4 } = require('uuid')
 
 export const populateDummyData = async () => {
     // Populate environment with some dummy data in dev
@@ -51,4 +53,18 @@ export const populateDummyData = async () => {
             commentCount !== 1 ? 's' : ''
         } added to table`,
     )
+
+    await AuthToken.sync({ force: true })
+    const tokens = [
+        '118e59a5-0ebd-4d7c-9006-dd81688659c0',
+        '9723667a-1fbe-4998-ae25-a832e1f9aae2',
+        'da600c1c-ac5f-4be1-9a80-d738898819dd',
+    ]
+    tokens.forEach(async (token) => {
+        await AuthToken.create({
+            token: token,
+            userId: uuidv4(),
+            expiration: new Date(),
+        })
+    })
 }
