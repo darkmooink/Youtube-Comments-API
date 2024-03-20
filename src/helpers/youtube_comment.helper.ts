@@ -38,7 +38,9 @@ export const buildTestUrl = (videoId: string) => {
     return requestUrl
 }
 
-export const parseYouTubeCommentsWithSentiment = (commentJson: object) => {
+export const parseYouTubeCommentsWithSentiment = (
+    commentJson: object,
+): CommentData[] => {
     const validatedCommentJson = CommentListResponseSchema.parse(commentJson)
 
     const items = validatedCommentJson.items || []
