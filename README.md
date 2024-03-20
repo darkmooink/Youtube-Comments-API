@@ -5,14 +5,26 @@ INTRODUCTION
 The YOUTUBE COMMENTS API is an application that allows the users to do the following
 
 1. Pull comment associated to a Youtube video by providing the Youtube video id
-2. Analyse and categorize each comment in to several setiment categories such as SPAM, POSTIVE, NEGATIVE etc
+2. Analyse each comment and gives it a sentiment category of any number between -1 and 1. -1 been the most negative and 1 been most positive
+
+# Project Management
+
+The project was managed through and Agile method using Trello - https://trello.com/b/zp19Rh6r/team-x-project-youtube
+
+Swagger Endpoint is at - http://localhost:3000/youtubecomments/api/v1/api-docs/
+
+# Technology Stack Used
+
+1. Typescript backend
+2. PostgreSql database
+3. Sequelise for Object Relational Mapper
 
 # Project Setup Instructions
 
 1. clone repo from https://github.com/darkmooink/Youtube-Comments-API.git
 2. create a database using PostgreSQL
-3. update .env file with your database credentials
-4. run npm install at the root of the project folder
+3. update .env file with your database credentials - database name and login details.
+4. run npm install at the root of the project folder to install application dependencies
 5. use http://localhost:3000/youtubecomments/api/v1/ to view landing page
 6. use POSTMAN / browser to view categorisation of comments -
    GET - http://localhost:<APPLICATION-PORT>/youtubecomments/api/v1/comments/<VIDEO-ID>/<NUMBER-OF-COMMENTS-TO-BE-RETURNED>?API_KEY=<YOUR-YOUTUBE-API-KEY>

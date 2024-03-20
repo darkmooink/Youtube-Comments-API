@@ -7,19 +7,8 @@ import { getSentiment } from '../services/sentamentAnalysis'
 
 export const getAllYoutubeComments = async (req: Request, res: Response) => {
     const videoId = req.params.id
-<<<<<<< Updated upstream
     if (typeof videoId !== 'string')
         res.status(400).json({ message: 'Invalid YoutubeId Id' })
-=======
-
-    const testResponse = await youtubeCommentService.testYoutubeVideoId(videoId)
-    if (testResponse.pageInfo.totalResults <= 0) {
-        res.status(400).json({
-            message: 'Invalid YouTube video Id',
-        })
-        return
-    }
->>>>>>> Stashed changes
 
     const maxResults = parseInt(req.params.maxResults)
     if (Number.isNaN(maxResults) || !maxResults)
@@ -35,11 +24,10 @@ export const getAllYoutubeComments = async (req: Request, res: Response) => {
 
     try {
         const comments: CommentData[] = parseYouTubeComments(commentJson)
-        comments.forEach((comment) =>{
+        comments.forEach((comment) => {
             comment.sentiment = getSentiment(comment.text)
             commentService.saveCommentWithReplies(comment)
-        },
-        )
+        })
         res.json(comments).status(200)
     } catch (e) {
         console.error(e)
