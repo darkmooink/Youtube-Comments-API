@@ -13,9 +13,9 @@ const swaggerConfiguration = {
             title: 'YouTube Comment Analysis service',
             version: '0.1',
             description:
-                'Welcome to the YouTube Comment Analysis Service' +
-                'We can analyse comments on your YouTube video and help you determine the sentiment/tone and content' +
-                "This can help you to gauge your audience's reactions and improve your relationship with your community ",
+                'Welcome to the YouTube Comment Analysis Service. We can analyse comments on your YouTube video and help you determine the ' +
+                "sentiment/tone and content. This can help you to gauge your audience's reactions and improve your relationship with your community. " +
+                'Please note: for the structure of the comment schema please refer to the YouTube DataApi documentation',
         },
     },
     apis: ['src/routes/routes.js', 'swagger-config.yaml'],
