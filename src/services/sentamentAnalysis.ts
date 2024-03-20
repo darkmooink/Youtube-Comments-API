@@ -1,4 +1,4 @@
-import { zipArrays } from "../functions/arrayFunctions";
+import { zipArrays } from "../helpers/arrayFunctions";
 import { CommentData } from "../types/comment";
 
 let Sentiment = require('natural').SentimentAnalyzer;
