@@ -9,6 +9,9 @@ export const baseUrl = '/youtubecomments/api/v1'
 export const router = express.Router()
 
 router.get('/health', healthController.getHealthStatus)
+router.get('/', (req, res) => {
+    res.redirect(baseUrl + '/api-docs')
+})
 
 /////////////////////////////////////////////////////////////////
 // ALL ROUTES BELOW THIS POINT NEED AN API KEY TO AUTHENTICATE //
