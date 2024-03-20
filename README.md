@@ -45,8 +45,9 @@ Swagger Endpoint is at - http://localhost:3000/youtubecomments/api/v1/api-docs/
 
 # TO DO
 
-1. Improve our analysis such that comments can be categorised in to SPAM, ABUSIVE, CHILD-INAPPROPRIATE
-2. Allow user to specify categories of analysis the would like to see
+1. Provide an interesting frontend for the application
+2. Improve our analysis such that comments can be categorised in to SPAM, ABUSIVE, CHILD-INAPPROPRIATE
+3. Allow user to specify categories of analysis the would like to see
 
 ## Step 1: Install Dependencies
 
