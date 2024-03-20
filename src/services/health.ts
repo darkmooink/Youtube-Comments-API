@@ -1,10 +1,9 @@
 import process from 'process'
 import { getComments } from '../services/comments'
 import { Comment } from '../models/comment'
-import { getYoutubeVideoComments } from '../services/youtube_comment.service'
 import { serverStatus } from '../types/health'
+import { testYoutubeVideoId } from '../services/youtube_comment.service'
 
-// TODO: Make return value either serverStatus or error
 export const getServerStatus = (): serverStatus => {
     let serverUptime = 0
     let benchmark = BigInt(0)
@@ -32,9 +31,8 @@ export const getDatabaseStatus = async () => {
 }
 
 export const getYouTubeStatus = async () => {
-    // TODO: There needs to be an error return value from this function.
-    const result = await getYoutubeVideoComments('dQw4w9WgXcQ', 1, 100)
-    if (result === null) {
+    const testResponse = await testYoutubeVideoId('dQw4w9WgXcQ')
+    if (testResponse.pageInfo.totalResults <= 0) {
         return false
     }
     return true
