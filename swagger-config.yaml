@@ -38,7 +38,7 @@ paths:
           schema:
             type: number
             format: int32
-        - name: API_key
+        - name: API_KEY
           in: query
           description: a valid API key registered with the YouTube Comment Analysis Service
           required: true
@@ -73,7 +73,7 @@ paths:
           schema:
             type: number
             format: int32
-        - name: API_key
+        - name: API_KEY
           in: query
           description: a valid API key registered with the YouTube Comment Analysis Service
           required: true
