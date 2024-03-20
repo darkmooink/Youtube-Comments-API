@@ -12,22 +12,22 @@ afterEach(() => {
 describe('authenicate api keys', () => {
     test('Returns a 2xx code with a good api key', async () => {
         // Arrange
-        jest.spyOn(auth, 'authenticate').mockReturnValue(true)
+        jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
-        const res = await request(app).get(`${baseUrl}/`)
+        const res = await request(app).get(`${baseUrl}/authTest`)
         // Assert
         expect(res.statusCode).toBeGreaterThanOrEqual(200)
         expect(res.statusCode).toBeLessThan(300)
-    })    
+    })
     test('Returns a 401 code with a bad api key', async () => {
         // Arrange
-        jest.spyOn(auth, 'authenticate').mockReturnValue(false)
+        jest.spyOn(auth, 'authenticate').mockResolvedValue(false)
         // Act
-        const res = await request(app).get(`${baseUrl}/`)
+        const res = await request(app).get(`${baseUrl}/authTest`)
         // Assert
         expect(res.statusCode).toBe(401)
-        expect(res.body).toBe('error')
+        expect(JSON.stringify(res.body)).toBe(
+            JSON.stringify({ error: 'Unauthorized' }),
+        )
     })
-
-    
 })
