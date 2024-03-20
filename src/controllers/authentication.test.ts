@@ -18,7 +18,7 @@ describe('authenicate api keys', () => {
         // Assert
         expect(res.statusCode).toBeGreaterThanOrEqual(200)
         expect(res.statusCode).toBeLessThan(300)
-    })    
+    })
     test('Returns a 401 code with a bad api key', async () => {
         // Arrange
         jest.spyOn(auth, 'authenticate').mockResolvedValue(false)
@@ -26,8 +26,8 @@ describe('authenicate api keys', () => {
         const res = await request(app).get(`${baseUrl}/authTest`)
         // Assert
         expect(res.statusCode).toBe(401)
-        expect(res.body).toBe({"error": "Unauthorized"})
+        expect(JSON.stringify(res.body)).toBe(
+            JSON.stringify({ error: 'Unauthorized' }),
+        )
     })
-
-    
 })
