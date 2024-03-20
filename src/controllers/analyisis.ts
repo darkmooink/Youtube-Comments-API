@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import * as youtubeCommentService from '../services/youtube_comment.service'
 import { CommentData } from '../types/comment'
+import { parseYouTubeCommentsWithSentiment } from '../helpers/youtube_comment.helper'
+import { getSentimentAnalysisAndStatsFromComments } from '../services/sentamentAnalysis'
 
 export const getCommentAnalysis = async (req: Request, res: Response) => {
     console.log('test--------------------------------------------------------')
@@ -21,17 +23,12 @@ export const getCommentAnalysis = async (req: Request, res: Response) => {
     )
 
     try {
-        const comments: CommentData[] = parseYouTubeComments(commentJson)
+        const comments: CommentData[] =
+            parseYouTubeCommentsWithSentiment(commentJson)
         const analysis = getSentimentAnalysisAndStatsFromComments(comments)
 
         res.json(analysis).status(200)
     } catch (e) {
         console.error(e)
     }
-}
-function parseYouTubeComments(commentJson: any): CommentData[] {
-    throw new Error('Function not implemented.')
-}
-function getSentimentAnalysisAndStatsFromComments(comments: CommentData[]) {
-    throw new Error('Function not implemented.')
 }
