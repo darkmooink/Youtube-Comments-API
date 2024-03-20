@@ -3,6 +3,7 @@ import { app } from '../app'
 import { baseUrl } from '../routes/routes'
 import * as commentService from '../services/comments'
 import { CommentData } from '../types/comment'
+import * as auth from '../services/authentication'
 
 const dummyCommentData = {
     id: 'UgzH8vliQSJKHQMGZjx4AaABAg.9V8_MXpsbSv9V8_NNseQDx',
@@ -29,7 +30,7 @@ describe('youTube Comment controller', () => {
     //         .mockResolvedValue(dummyCommentData)
     //     // Act
     //     const res = await request(app).get(
-    //         `${baseUrl}/comments/${videoId}/${maxResults}`,
+    //         `${baseUrl}/comments/${videoId}/${maxResults}?API_KEY=118e59a5-0ebd-4d7c-9006-dd81688659c0`,
     //     )
     //     // Assert
     //     expect(res.statusCode).toEqual(200)
@@ -39,6 +40,7 @@ describe('youTube Comment controller', () => {
         // Arrange
         const videoId = 'e6WuFNRP7e8'
         const maxResults = 'NN'
+        jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
         const res = await request(app).get(
             `${baseUrl}/comments/${videoId}/${maxResults}`,
@@ -53,6 +55,7 @@ describe('youTube Comment controller', () => {
         // Arrange
         const videoId = '123456'
         const maxResults = '30'
+        jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
         const res = await request(app).get(
             `${baseUrl}/comments/${videoId}/${maxResults}`,
@@ -71,6 +74,7 @@ describe('youTube Comment controller', () => {
                 throw new Error(errorMsg)
             },
         )
+        jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
         const res = await request(app).get(
             `${baseUrl}/comments/${videoId}/${maxResults}`,
