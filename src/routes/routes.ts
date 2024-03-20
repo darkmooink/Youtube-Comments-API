@@ -16,4 +16,15 @@ router.get('/health', healthController.getHealthStatus)
 router.use((req, res, next) => {
     authenticate(req, res, next)
 })
-router.get('/comments/:id/:maxResults', commentController.getAllYoutubeComments)
+router.get(
+    '/comments/:id/:maxResults',
+    commentController.getAndSaveVideoCommentsWithSentiment,
+)
+
+
+/////////////////////////////////////////////////////////////////
+// AUTHENTICATED TESTING END POINTS HERE                       //
+/////////////////////////////////////////////////////////////////
+router.get('/authTest',(req, res, next) => {
+    res.status(200).json('')
+})
