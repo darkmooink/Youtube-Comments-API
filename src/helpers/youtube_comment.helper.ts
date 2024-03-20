@@ -24,6 +24,20 @@ export const buildRequestUrl = (
     return requestUrl
 }
 
+export const buildTestUrl = (videoId: string) => {
+    const requestUrl: string = url.format({
+        protocol: 'https',
+        hostname: CONFIG.youtubeApiHostName,
+        pathname: '/youtube/v3/videos',
+        query: {
+            key: CONFIG.youtubeApiKey,
+            part: 'id',
+            id: videoId,
+        },
+    })
+    return requestUrl
+}
+
 export const parseYouTubeCommentsWithSentiment = (commentJson: object) => {
     const validatedCommentJson = CommentListResponseSchema.parse(commentJson)
 
