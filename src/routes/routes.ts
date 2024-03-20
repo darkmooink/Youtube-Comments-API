@@ -2,6 +2,7 @@ import express from 'express'
 import * as commentController from '../controllers/youtube_comment.controller'
 import * as healthController from '../controllers/health_controller'
 import { authenticate } from '../controllers/authentication'
+import * as analyisisController from '../controllers/analyisis'
 
 export const baseUrl = '/youtubecomments/api/v1'
 
@@ -16,6 +17,8 @@ router.get('/health', healthController.getHealthStatus)
 router.use((req, res, next) => {
     authenticate(req, res, next)
 })
+
+router.get('/analysis/:id/:maxResults', analyisisController.getCommentAnalysis)
 router.get(
     '/comments/:id/:maxResults',
     commentController.getAndSaveVideoCommentsWithSentiment,
