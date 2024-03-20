@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
 import * as youtubeCommentService from '../services/youtube_comment.service'
-import * as commentService from '../services/comments'
-import { CommentData } from '../types/comment'
-import { parseYouTubeComments } from '../helpers/youtube_comment.helper'
-import { getSentiment } from '../services/sentamentAnalysis'
+import { saveCommentsWithSentiment } from '../services/comments'
 
-export const getAllYoutubeComments = async (req: Request, res: Response) => {
+export const getAndSaveVideoCommentsWithSentiment = async (
+    req: Request,
+    res: Response,
+) => {
     const videoId = req.params.id
   
     const testResponse = await youtubeCommentService.testYoutubeVideoId(videoId)
@@ -38,12 +38,7 @@ export const getAllYoutubeComments = async (req: Request, res: Response) => {
     }
 
     try {
-        const comments: CommentData[] = parseYouTubeComments(commentJson)
-        comments.forEach((comment) =>{
-            comment.sentiment = getSentiment(comment.text)
-            commentService.saveCommentWithReplies(comment)
-        },
-        )
+        const comments = await saveCommentsWithSentiment(commentJson)
         res.json(comments).status(200)
     } catch (error) {
         console.log(error)
