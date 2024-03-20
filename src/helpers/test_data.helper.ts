@@ -1,10 +1,13 @@
 import { CommentData } from '../types/comment'
 
-export const createTestCommentData = (id: string): CommentData => ({
+export const createTestCommentData = (
+    id: string,
+    videoId: string = 'video1',
+): CommentData => ({
     id: id,
     parentId: null,
     channelId: 'channel1',
-    videoId: 'video1',
+    videoId: videoId,
     author: 'author1',
     likeCount: 10,
     text: 'This is the main comment',
@@ -18,11 +21,12 @@ export const createTestCommentData = (id: string): CommentData => ({
 export const createTestReplyData = (
     id: string,
     parentId: string,
+    videoId: string = 'video1',
 ): CommentData => ({
     id: id,
     parentId: parentId,
     channelId: 'channel1',
-    videoId: 'video1',
+    videoId: videoId,
     author: 'author1',
     likeCount: 10,
     text: 'This is a reply',
@@ -33,12 +37,15 @@ export const createTestReplyData = (
     authorChannelUrl: 'channel1url',
 })
 
-export const createTestCommentWithRepliesData = (): CommentData => {
-    const commentId = 'comment1'
-    const comment = createTestCommentData(commentId)
-    comment.replies = [
-        createTestReplyData('reply1', commentId),
-        createTestReplyData('reply2', commentId),
-    ]
+export const createTestCommentWithRepliesData = (
+    commentId: string,
+    replyIds: string[],
+    videoId: string = 'video1',
+): CommentData => {
+    const comment = createTestCommentData(commentId, videoId)
+    comment.replies = []
+    replyIds.forEach((replyId) => {
+        comment.replies?.push(createTestReplyData(replyId, commentId, videoId))
+    })
     return comment
 }

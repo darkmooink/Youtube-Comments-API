@@ -147,7 +147,11 @@ describe('getReplies', () => {
 
 describe('saveCommentWithReplies', () => {
     it('should save a comment with replies', async () => {
-        const commentData = createTestCommentWithRepliesData()
+        const commentData = createTestCommentWithRepliesData('comment1', [
+            'reply1',
+            'reply2',
+        ])
+        console.log(commentData, '<--------commentData')
 
         expect(commentData.replies).toBeDefined()
 
@@ -169,6 +173,38 @@ describe('saveCommentWithReplies', () => {
         replies.forEach((reply, index) => {
             expect(reply).toBeDefined()
             expect(reply.text).toEqual(commentData.replies![index].text)
+        })
+    })
+})
+
+describe('getTopLevelCommentsByVideoId', () => {
+    test('should return an empty array when no top-level comments are present for a video', async () => {
+        const videoId = 'video_with_no_comments'
+        const topLevelComments =
+            await commentService.getTopLevelCommentsByVideoId(videoId)
+        expect(topLevelComments).toEqual([])
+    })
+
+    test('should return only top-level comments for a specific video', async () => {
+        const commentId = 'comment1'
+        const replyIds = ['reply1', 'reply2']
+        const videoId = 'video1'
+
+        const commentData = createTestCommentWithRepliesData(
+            commentId,
+            replyIds,
+            videoId,
+        )
+
+        await commentService.saveCommentWithReplies(commentData)
+
+        const topLevelComments =
+            await commentService.getTopLevelCommentsByVideoId(videoId)
+
+        expect(topLevelComments.length).toBe(1)
+        topLevelComments.forEach((comment) => {
+            expect(comment.parentId).toBeNull()
+            expect(comment.videoId).toBe(videoId)
         })
     })
 })

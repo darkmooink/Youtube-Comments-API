@@ -12,6 +12,23 @@ export const getComment = async (id: string) => {
     })
 }
 
+export const getTopLevelCommentsByVideoId = async (
+    videoId: string,
+): Promise<CommentData[]> => {
+    try {
+        const topLevelComments = await Comment.findAll({
+            where: {
+                videoId: videoId,
+                parentId: null,
+            },
+        })
+        return topLevelComments
+    } catch (error) {
+        console.error('Error fetching top-level comments:', error)
+        throw error
+    }
+}
+
 export const saveComment = async (commentData: CommentData) => {
     const { id, ...commentProps } = commentData
 
