@@ -18,7 +18,20 @@ export const getYoutubeVideoComments = async (
             return await response.json()
         }
     } catch (error) {
-        console.log('Unable to fetch -', error)
+        console.log('Unable to fetch - ', error)
         return null
+    }
+}
+
+export const testYoutubeVideoId = async (videoId: string) => {
+    const testUrl: string = commentHelper.buildTestUrl(videoId)
+
+    console.log('testUrl :>> ', testUrl)
+    try {
+        const response = await fetch(testUrl)
+        return await response.json()
+    } catch (error) {
+        console.log('Unable to fetch - ', error)
+        return false
     }
 }
