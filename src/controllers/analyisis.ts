@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
 import * as youtubeCommentService from '../services/youtube_comment.service'
 import { CommentData } from '../types/comment'
-import { parseYouTubeComments } from '../helpers/youtube_comment.helper'
+import { parseYouTubeCommentsWithSentiment } from '../helpers/youtube_comment.helper'
 import { getSentimentAnalysisAndStatsFromComments } from '../services/sentamentAnalysis'
 
 export const getCommentAnalysis = async (req: Request, res: Response) => {
-    console.log("test--------------------------------------------------------")
+    console.log('test--------------------------------------------------------')
     const videoId = req.params.id
     if (typeof videoId !== 'string')
         res.status(400).json({ message: 'Invalid YoutubeId Id' })
@@ -23,7 +23,8 @@ export const getCommentAnalysis = async (req: Request, res: Response) => {
     )
 
     try {
-        const comments: CommentData[] = parseYouTubeComments(commentJson)
+        const comments: CommentData[] =
+            parseYouTubeCommentsWithSentiment(commentJson)
         const analysis = getSentimentAnalysisAndStatsFromComments(comments)
 
         res.json(analysis).status(200)
