@@ -41,9 +41,9 @@ export const getAndSaveVideoCommentsWithSentiment = async (
         const comments = await saveCommentsWithSentiment(commentJson)
         res.json(comments).status(200)
     } catch (error) {
-        console.log(error)
         res.status(400).json({
             message: `Error saving comments to database - ${error}`,
         })
+        return
     }
 }
