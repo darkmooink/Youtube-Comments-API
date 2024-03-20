@@ -1,4 +1,5 @@
 import { zipArrays } from "../functions/arrayFunctions";
+import { CommentData } from "../types/comment";
 
 let Sentiment = require('natural').SentimentAnalyzer;
 let stemmer = require('natural').PorterStemmer;
@@ -65,4 +66,17 @@ export function getSentimentAnalysisAndStats(texts:string[]){
     stats.standardDeviation = Math.sqrt(stats.variance);
     
     return stats
+}
+
+export function getSentimentAnalysisAndStatsFromComments(comments:CommentData[], includeReplies=false){
+    const rawComments : string[] = []
+    comments.forEach((comment)=>{
+        rawComments.push(comment.text)
+        if (includeReplies){
+            comment.replies?.forEach((comment)=>{
+                rawComments.push(comment.text)
+            })
+        }
+    })
+    return getSentimentAnalysisAndStats(rawComments)
 }
