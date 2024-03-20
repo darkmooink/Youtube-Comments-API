@@ -2,7 +2,7 @@ paths:
   /youtubecomments/api/v1/health:
     get:
       tags:
-        - comments
+        - health
       summary: Reports on the health of the API (Server, YouTube API and Database)
       responses:
         "200":
@@ -17,6 +17,77 @@ paths:
             application/json:
               schema: 
                 $ref: '#/components/schemas/Status'
+
+  /youtubecomments/api/v1/analysis/{id}/{maxResults}:
+    get:
+      tags: 
+        - analysis
+      summary:  Outputs all the comments with their sentiment, the most negative and most positive comments,'+ 
+        ' plus stats for the analysis, min. max. mean. median. variance and standard deviation'
+      parameters:
+        - name: id
+          in: path
+          description: id of the video that you wish to retrieve comments from (i.e. the value of the ?v param here - https://www.youtube.com/watch?v=e6WuFNRP7e8/30 )
+          required: true
+          schema:
+            type: string
+        - name: maxResults
+          in: path
+          description: maximum number of results to receive in the response (1 to 100)
+          required: true
+          schema:
+            type: number
+            format: int32
+        - name: API_KEY
+          in: query
+          description: a valid API key registered with the YouTube Comment Analysis Service
+          required: true
+          schema: 
+            type: string
+      responses: 
+        "200": 
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Analysis'
+        "401":
+          description: Unauthorised access. Please add a valid API key as a query param and try again.  
+
+  /youtubecomments/api/v1/comments/{id}/{maxResults}:
+    get:
+      tags: 
+        - comments
+      summary: Retrieves all comments from a video and outputs them with added raw floating point sentiment analysis value for each
+      parameters:
+        - name: id
+          in: path
+          description: id of the video that you wish to retrieve comments from (i.e. the value of the ?v param here - https://www.youtube.com/watch?v=e6WuFNRP7e8/30 )
+          required: true
+          schema:
+            type: string
+        - name: maxResults
+          in: path
+          description: maximum number of results to receive in the response (1 to 100)
+          required: true
+          schema:
+            type: number
+            format: int32
+        - name: API_KEY
+          in: query
+          description: a valid API key registered with the YouTube Comment Analysis Service
+          required: true
+          schema: 
+            type: string
+      responses:
+        "200": 
+          description: Successful operation (see YouTube Data API for full schema/format)
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Comments'
+        "401":
+          description: Unauthorised access. Please add a valid API key as a query param and try again
 components:
   schemas:
     Status:
@@ -52,3 +123,49 @@ components:
             details: 
               type: string
               example: "Error - no response"
+    Comments:
+      type: object
+      properties:
+        sentiment:
+          type: number
+          format: float
+    Analysis:
+      type: object
+      properties:
+        raw:
+          type: array
+          items:
+            - type: string
+            - type: number
+            - format: float
+        mostPositive:
+          type: array
+          comment:
+            type: string
+          sentimentScore:
+            type: number
+            format: float
+        mostNegative:
+          type: array
+          comment:
+            type: string
+          sentimentScore:
+            type: number
+            format: float
+        mean:
+          type: number
+          format: float
+        median:
+          type: number
+          format: float 
+        variance: 
+          type: number
+          format: float
+        standardDeviation:
+          type: number
+          format: float
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: API_KEY
+      in: query
