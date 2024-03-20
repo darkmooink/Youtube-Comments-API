@@ -3,23 +3,8 @@ import { app } from '../app'
 import { baseUrl } from '../routes/routes'
 import * as commentService from '../services/comments'
 import * as auth from '../services/authentication'
-// const dummyCommentData = {
-//     id: 'UgzH8vliQSJKHQMGZjx4AaABAg.9V8_MXpsbSv9V8_NNseQDx',
-//     parentId: 'UgzH8vliQSJKHQMGZjx4AaABAg',
-//     channelId: 'UCX6OQ3DkcsbYNE6H8uQQuVA',
-//     videoId: '0e3GPea1Tyg',
-//     author: '@shrek3578',
-//     likeCount: 22324,
-//     text: 'shrek',
-//     sentiment: null,
-//     timeSubmitted: new Date(),
-//     timeArchived: new Date(),
-//     authorChannelId: 'channel1',
-//     authorChannelUrl: 'channel1url',
-// } as CommentData
 
 describe('youTube Comment controller', () => {
-
     // test('should return status 200 for valid params', async () => {
     //     // Arrange
     //     const videoId = 'e6WuFNRP7e8'
@@ -43,7 +28,7 @@ describe('youTube Comment controller', () => {
         jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
         const res = await request(app).get(
-            `${baseUrl}/comments/${videoId}/${maxResults}`,
+            `${baseUrl}/comments/${videoId}/${maxResults}?API_KEY=118e59a5-0ebd-4d7c-9006-dd81688659c0`,
         )
         // Assert
         expect(res.statusCode).toEqual(400)
@@ -58,7 +43,7 @@ describe('youTube Comment controller', () => {
         jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
         const res = await request(app).get(
-            `${baseUrl}/comments/${videoId}/${maxResults}`,
+            `${baseUrl}/comments/${videoId}/${maxResults}?API_KEY=118e59a5-0ebd-4d7c-9006-dd81688659c0`,
         )
         // Assert
         expect(res.statusCode).toEqual(400)
@@ -77,7 +62,7 @@ describe('youTube Comment controller', () => {
         jest.spyOn(auth, 'authenticate').mockResolvedValue(true)
         // Act
         const res = await request(app).get(
-            `${baseUrl}/comments/${videoId}/${maxResults}`,
+            `${baseUrl}/comments/${videoId}/${maxResults}?API_KEY=118e59a5-0ebd-4d7c-9006-dd81688659c0`,
         )
         // Assert
         expect(res.statusCode).toEqual(400)
