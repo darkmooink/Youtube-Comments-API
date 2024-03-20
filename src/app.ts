@@ -25,8 +25,4 @@ app.use(`${baseUrl}/api-docs`, swaggerUi.serve, swaggerUi.setup(specs))
 
 app.use(express.json())
 
-app.get(`${baseUrl}/`, (req, res) => {
-    res.redirect(baseUrl + '/api-docs')
-})
-
 app.use(baseUrl, router)
