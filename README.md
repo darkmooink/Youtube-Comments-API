@@ -67,7 +67,7 @@ npm i
 
 -   This installs all the packages required for the project as defined in the `package.json` file.
 
-5. Configure Environment Variables
+#### Configure Environment Variables
 
 -   Create a `.env` file based on the `.env.template`
 -   Configure with values for your development environment
