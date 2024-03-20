@@ -5,7 +5,7 @@ import { CommentData } from '../types/comment'
 import { parseYouTubeComments } from '../helpers/youtube_comment.helper'
 import { getSentiment } from '../services/sentamentAnalysis'
 
-export const getAllYoutubeComments = async (req: Request, res: Response) => {
+export const saveCommentsWithSetiment = async (req: Request, res: Response) => {
     const videoId = req.params.id
     if (typeof videoId !== 'string')
         res.status(400).json({ message: 'Invalid YoutubeId Id' })
