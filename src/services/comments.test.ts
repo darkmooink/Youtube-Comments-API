@@ -151,7 +151,6 @@ describe('saveCommentWithReplies', () => {
             'reply1',
             'reply2',
         ])
-        console.log(commentData, '<--------commentData')
 
         expect(commentData.replies).toBeDefined()
 
